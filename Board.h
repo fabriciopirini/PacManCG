@@ -1,44 +1,37 @@
-//code by John Hollister 2005
+// code by John Hollister 2005
 #ifndef _BOARD_H_
 #define _BOARD_H_
 
 #include <GL/glut.h>
 
 class Board {
-  private:
-	GLubyte list[5];  //display lists for each wall
+private:
 
-	void create_list_lib(void);
+  GLubyte list[5]; // display lists for each wall
 
-  public:
+  void create_list_lib(void);
 
-	int pebbles_left;
+public:
 
-	//array for eating
-	int tp_array[31][28];
+  // int pebbles_left;
 
-	static const int BOARD_X;
-	static const int BOARD_Y;
+  // array for eating
+  int tp_array[31][28];
 
-    // Constructor. Can't do initialization here because we are
-    // created before the OpenGL context is set up.
-    Board(void);
+  static const int BOARD_X;
+  static const int BOARD_Y;
 
-    // Destructor. Frees the display lists and texture object.
-    ~Board(void);
+  Board(void);
 
-	void tp_restore(void);
+  ~Board(void);
 
-	//draw the board
-	void Draw(void);
+  // void tp_restore(void);
 
+  void Draw(void);
 
-	//this function returns whether or not a location is open or a wall
-	bool IsOpen(int, int);
-
-
-
+  bool IsOpen(int,
+              int);
 };
 
 
-#endif
+#endif // ifndef _BOARD_H_

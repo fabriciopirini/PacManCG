@@ -4,32 +4,33 @@
 #include <GL/glut.h>
 
 class Pac {
-  private:
-	double speed;
+private:
 
-  public:
+  double speed;
 
-    int lives;
+public:
 
-	double angle;
-	double x, y;
-	bool animate;
+  int lives;
 
-    // Constructor. Can't do initialization here because we are
-    // created before the OpenGL context is set up.
-    Pac(double, double);
+  double angle;
+  double x, y;
+  bool animate;
 
-    // Destructor. Frees the display lists and texture object.
-    ~Pac(void);
+  // Constructor. Can't do initialization here because we are
+  // created before the OpenGL context is set up.
+  Pac(double,
+      double);
 
-	void Move(); //move the pacman
+  // Destructor. Frees the display lists and texture object.
+  ~Pac(void);
 
-	void Reinit();  //reinitialize everything
+  void Move();   // move the pacman
 
-	//draw the pacman
-	void Draw(void);
+  void Reinit(); // reinitialize everything
 
+  // draw the pacman
+  void Draw(void);
 };
 
 
-#endif
+#endif // ifndef _PAC_H_

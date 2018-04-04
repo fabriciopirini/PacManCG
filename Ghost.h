@@ -4,53 +4,56 @@
 #include <GL/glut.h>
 
 class Ghost {
-  private:
+private:
 
-  public:
-	
-	bool edible;
-	int edible_max_time;
-	int edible_timer;
-	
+public:
 
-	bool eaten;
-
-	bool transporting;
+  bool edible;
+  int edible_max_time;
+  int edible_timer;
 
 
-    float color[3];
+  bool eaten;
 
-	double speed;
-	double max_speed;
-	bool in_jail;
-	int jail_timer;
+  bool transporting;
 
-	double angle;
-	double x, y;
 
-    // Constructor. Can't do initialization here because we are
-    // created before the OpenGL context is set up.
-    Ghost(double, double);
+  float color[3];
 
-    // Destructor. Frees the display lists and texture object.
-    ~Ghost(void);
+  double speed;
+  double max_speed;
+  bool in_jail;
+  int jail_timer;
 
-	void Move(); //move the Ghost
+  double angle;
+  double x, y;
 
-	void Update(void);  //update ghost state
+  // Constructor. Can't do initialization here because we are
+  // created before the OpenGL context is set up.
+  Ghost(double,
+        double);
 
-	void Chase(double, double, bool*);  //chase pacman
+  // Destructor. Frees the display lists and texture object.
+  ~Ghost(void);
 
-	bool Catch(double, double);	//collision detection
+  void Move();       // move the Ghost
 
-	void Reinit(void);
+  void Update(void); // update ghost state
 
-	void Vulnerable(void);
+  void Chase(double,
+             double,
+             bool *); // chase pacman
 
-	//draw the Ghostman
-	void Draw(void);
+  bool Catch(double,
+             double); // collision detection
 
+  void Reinit(void);
+
+  void Vulnerable(void);
+
+  // draw the Ghostman
+  void Draw(void);
 };
 
 
-#endif
+#endif // ifndef _GHOST_H_

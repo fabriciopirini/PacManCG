@@ -4,18 +4,16 @@
 #include <GL/glut.h>
 
 class Camera {
-  private:
+private:
 
-  public:
-    // Constructor. Can't do initialization here because we are
-    // created before the OpenGL context is set up.
-    Camera(float);
+public:
 
-    // Destructor. Frees the display lists and texture object.
-    ~Camera(void);
-
-	void Set_position(float, float,double,int);
+  Camera(float);
+  ~Camera(void);
+  void Set_position(float,
+                    float,
+                    double,
+                    int);
 };
 
-
-#endif
+#endif // ifndef _CAMERA_H_
