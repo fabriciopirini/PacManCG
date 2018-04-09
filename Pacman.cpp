@@ -4,7 +4,7 @@
 #include <GL/glut.h>
 #include <math.h>
 
-GLfloat z, alfa, beta; // Coordenadas e ângulos       
+GLfloat alfa, beta; // Coordenadas e ângulos       
 GLfloat raio = 0.5;
 int triangulos = 20;
 
@@ -42,24 +42,24 @@ void Pacman::Desenha(void) {
   glTranslatef(x, -y, 0);
   glTranslatef(.5, 0.6, 0);
   glTranslatef((float)Mapa::MAPA_X / -2.0f, (float)Mapa::MAPA_Y / 2.0f, 0.5);
-  glutSolidSphere(.5, 10, 10);
-
-  /*for (alfa = 0.0; alfa < M_PI; alfa += M_PI/triangulos)
+  GLfloat pacx, pacy, pacz = 0;
+  
+  for (alfa = 0.0; alfa < M_PI; alfa += M_PI/triangulos)
   {        
     glBegin(GL_TRIANGLE_STRIP);
     for (beta = 0.0; beta < 2.01*M_PI; beta += M_PI/triangulos)            
     {            
-      x = raio*cos(beta)*sin(alfa);
-      y = raio*sin(beta)*sin(alfa);
-      z = raio*cos(alfa);
-      glVertex3f(x, y, z);
-      x = raio*cos(beta)*sin(alfa + M_PI/triangulos);
-      y = raio*sin(beta)*sin(alfa + M_PI/triangulos);
-      z = raio*cos(alfa + M_PI/triangulos);            
-      glVertex3f(x, y, z);            
+      pacx = raio*cos(beta)*sin(alfa);
+      pacy = raio*sin(beta)*sin(alfa);
+      pacz = raio*cos(alfa);
+      glVertex3f(pacx, pacy, pacz);
+      pacx = raio*cos(beta)*sin(alfa + M_PI/triangulos);
+      pacy = raio*sin(beta)*sin(alfa + M_PI/triangulos);
+      pacz = raio*cos(alfa + M_PI/triangulos);            
+      glVertex3f(pacx, pacy, pacz);            
     }        
     glEnd();
-  }*/
+  }
   
   glPopMatrix();
 }
