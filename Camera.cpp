@@ -8,20 +8,19 @@
 Camera::~Camera(void) {}
 
 // Construtor
-Camera::Camera(float ratio) {
-  glEnable(GL_CULL_FACE);
-
+Camera::Camera(float razao) {
   float  cor[4], dir[4];
 
-  // Habilita a iluminação com uma fonte de luz.
+  // Ativa iluminação com apenas uma fonte de luz
   glEnable(GL_LIGHT0);
   glEnable(GL_LIGHTING);
 
-  // Luz Ambiente e Difusa acompanham a cor atual.
+  // Luz ambiente e difusa e a cor atual
   glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
   glEnable(GL_COLOR_MATERIAL);
 
-  // Habilita a normalização do vetor normal.
+  // Ativa a normalização do vetor normal. 
+  // Pode escalar objetos.
   glEnable(GL_NORMALIZE);
 
   cor[0] = 1.0f;
@@ -50,13 +49,12 @@ Camera::Camera(float ratio) {
   glLightfv(GL_LIGHT0, GL_POSITION, dir);
 }
 
-// Posiciona a câmera de forma a fornecer uma visão isométrica do mapa.
-void Camera::Posicao(float x_at, float y_at, double angle, int view) {
+void Camera::Posicao(float x_at, float y_at, double angle) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glColor3f(1.0f, 1.0f, 1.0f);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(-1.5, -26, 25,
+  gluLookAt(-1.5,  -26,   25,
             -1.5,   -9,    1,
             0.0f, 0.0f, 1.0f);
 }

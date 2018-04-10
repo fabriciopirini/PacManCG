@@ -14,7 +14,7 @@ public:
 
   double angulo;
   double x, y;
-  bool animacao;
+  bool mover;
 
   Pacman(double, double);
   ~Pacman(void);

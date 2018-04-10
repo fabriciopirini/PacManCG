@@ -4,7 +4,8 @@
 #include <GL/glut.h>
 #include <math.h>
 
-GLfloat alfa, beta; // Coordenadas e ângulos       
+// Coordenadas, ângulos e medidas
+GLfloat alfa, beta;
 GLfloat raio = 0.5;
 GLfloat pacx, pacy, pacz = 0;
 int triangulos = 20;
@@ -14,12 +15,11 @@ Pacman::~Pacman(void) {}
 
 // Construtor
 Pacman::Pacman(double tx, double ty) {
-  vidas      = 3;
   tx         = x;
   ty         = y;
   angulo     = 90;
   velocidade = 0.1;
-  animacao   = false;
+  mover      = false;
 }
 
 // Posição inicial do Pacman
@@ -27,7 +27,7 @@ void Pacman::Recomeca(void) {
   x        = 13.5;
   y        = 23;
   angulo   = 90;
-  animacao = false;
+  mover    = false;
 }
 
 // Move o Pacman na direção que estiver olhando
@@ -52,10 +52,11 @@ void Pacman::Desenha(void) {
       pacx = raio*cos(beta)*sin(alfa);
       pacy = raio*sin(beta)*sin(alfa);
       pacz = raio*cos(alfa);
+      //Para invisibilidade, usar if(pacy > 0.5)
       glVertex3f(pacx, pacy, pacz);
       pacx = raio*cos(beta)*sin(alfa + M_PI/triangulos);
       pacy = raio*sin(beta)*sin(alfa + M_PI/triangulos);
-      pacz = raio*cos(alfa + M_PI/triangulos);            
+      pacz = raio*cos(alfa + M_PI/triangulos); 
       glVertex3f(pacx, pacy, pacz);            
     }        
     glEnd();

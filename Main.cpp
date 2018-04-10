@@ -7,62 +7,60 @@
 #include "Pacman.h"
 
 static int   lastKey;
-static int   start_timer;
-static float ratio;
+static int   freeze_timer;
+static float razao;
 static int   h, w;
-static bool  gameover = false;
 
 void init(void);
 Camera *camera;
 Mapa   *mapa;
 Pacman *pacman;
 
-// Tipos de visão do mapa
-int view;
-
 void RenderScene() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   // Define a câmera para a posição inicial do Pacman
-  camera->Posicao(pacman->x, pacman->y, pacman->angulo, view);
+  camera->Posicao(pacman->x, pacman->y, pacman->angulo);
 
   // Transporta o Pacman pelas laterais
   if (((int)pacman->x == 27) && ((int)pacman->y == 14) && (pacman->angulo == 0)) {
     pacman->x        = 0;
-    pacman->animacao = true;
+    pacman->mover = true;
   }
   else if (((int)(pacman->x + 0.9) == 0) && ((int)pacman->y == 14) &&
            (pacman->angulo == 180)) {
     pacman->x        = 27;
-    pacman->animacao = true;
+    pacman->mover = true;
   }
 
   // Verifica a possibilidade das animações
-  if (pacman->animacao) pacman->Move();
+  if (pacman->mover) 
+    pacman->Move();
 
-  if (!(mapa->NaTela((int)(pacman->x + cos(M_PI / 180 * pacman->angulo)),
-                     (int)(pacman->y + sin(M_PI / 180 * pacman->angulo)))) &&
+  // Verifica se o caminho andado pelo Pacman é válido, se não for, colidir
+  if (!(mapa->NaTela((int)(pacman->x + cos(M_PI / 180 * pacman->angulo)), (int)(pacman->y + sin(M_PI / 180 * pacman->angulo)))) && 
       (pacman->x - (int)pacman->x < 0.1) &&
-      (pacman->y - (int)pacman->y < 0.1)) pacman->animacao = false;
+      (pacman->y - (int)pacman->y < 0.1)) 
+    pacman->mover = false;
 
   mapa->Desenha();
 
-  if (!gameover) pacman->Desenha();
+  pacman->Desenha();
 
   glutSwapBuffers();
 }
 
 void TimerFunction(int valor) {
   // Tempo inicial para iniciar o jogo
-  if (start_timer > 0) start_timer--;
+  if (freeze_timer > 0) freeze_timer--;
 
   // Se o jogo está sendo executado
-  if (!gameover && (start_timer == 0)) {
+  if (freeze_timer == 0) {
     // Seta para direita
     if ((lastKey == GLUT_KEY_RIGHT) && ((int)pacman->y - pacman->y > -0.1) &&
         (pacman->angulo != 0)) {
       if (mapa->NaTela(pacman->x + 1, pacman->y)) {
-        pacman->animacao = true;
+        pacman->mover = true;
         pacman->angulo   = 0;
       }
     }
@@ -71,7 +69,7 @@ void TimerFunction(int valor) {
     else if ((lastKey == GLUT_KEY_LEFT) && ((int)pacman->y - pacman->y > -0.1) &&
              (pacman->angulo != 180)) {
       if (mapa->NaTela(pacman->x - 1, pacman->y)) {
-        pacman->animacao = true;
+        pacman->mover = true;
         pacman->angulo   = 180;
       }
     }
@@ -80,7 +78,7 @@ void TimerFunction(int valor) {
     if ((lastKey == GLUT_KEY_UP) && ((int)pacman->x - pacman->x > -0.1) &&
         (pacman->angulo != 270)) {
       if (mapa->NaTela(pacman->x, pacman->y - 1)) {
-        pacman->animacao = true;
+        pacman->mover = true;
         pacman->angulo   = 270;
       }
     }
@@ -89,17 +87,10 @@ void TimerFunction(int valor) {
     else if ((lastKey == GLUT_KEY_DOWN) && ((int)pacman->x - pacman->x > -0.1) &&
              (pacman->angulo != 90)) {
       if (mapa->NaTela(pacman->x, pacman->y + 1)) {
-        pacman->animacao = true;
+        pacman->mover = true;
         pacman->angulo   = 90;
       }
     }
-  }
-
-  // Inicia um novo jogo
-  if ((lastKey == 13) && gameover) {
-    pacman->vidas = 3;
-    init();
-    gameover = false;
   }
 
   // Finaliza
@@ -111,19 +102,25 @@ void TimerFunction(int valor) {
 void ChangeSize(GLsizei w, GLsizei h) {
   if (h == 0) h = 1;
 
-  ratio = 1.0f * w / (h);
+  razao = 1.0f * w / (h);
   glViewport(0, 0, w, h);
-  camera = new Camera(ratio);
+  camera = new Camera(razao);
 }
 
 // Configura o jogo
 void init(void) {
-  start_timer = 100;
+  // Congela o Pacman por 1 segundo no inicio do jogo
+  freeze_timer = 50; 
   pacman->Recomeca();
 }
 
 void catchKey(int key, int x, int y) {
   lastKey = key;
+  //printf("%d\n", key);
+  if(lastKey == 1){
+      exit(0);
+      //system("ps -ef | grep mpg123 | awk '{print $2}' | xargs kill -9 &");
+  }
 }
 
 void menu() {
@@ -136,11 +133,13 @@ void menu() {
 
 int main(int argc, char *argv[]) {
   menu();
+  //system("mpg123 Overworld.mp3 &");
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
   // Configurações gerais
   glutInitWindowSize(800, 640);
+  glutInitWindowPosition(500, 150);
   glutCreateWindow("PacMan GLUT 3D");
 
   // Faz o mouse ficar invisível
@@ -155,11 +154,11 @@ int main(int argc, char *argv[]) {
   mapa = new Mapa();
 
   // Exibe o Pacman na sua posição inicial
-  pacman = new Pacman(13.5, 23);
+  pacman = new Pacman(0, 0);
 
   init();
 
   glutMainLoop();
-
+  //system("ps -ef | grep mpg123 | awk '{print $2}' | xargs kill -9 &");
   return 0;
 }

@@ -10,7 +10,7 @@ public:
 
   Camera(float);
   ~Camera(void);
-  void Posicao(float, float, double, int);
+  void Posicao(float, float, double);
 };
 
-#endif // ifndef _CAMERA_H_
+#endif
