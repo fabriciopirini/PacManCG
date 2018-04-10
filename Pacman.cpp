@@ -6,6 +6,7 @@
 
 GLfloat alfa, beta; // Coordenadas e ângulos       
 GLfloat raio = 0.5;
+GLfloat pacx, pacy, pacz = 0;
 int triangulos = 20;
 
 // Destrutor
@@ -42,12 +43,11 @@ void Pacman::Desenha(void) {
   glTranslatef(x, -y, 0);
   glTranslatef(.5, 0.6, 0);
   glTranslatef((float)Mapa::MAPA_X / -2.0f, (float)Mapa::MAPA_Y / 2.0f, 0.5);
-  GLfloat pacx, pacy, pacz = 0;
   
   for (alfa = 0.0; alfa < M_PI; alfa += M_PI/triangulos)
   {        
     glBegin(GL_TRIANGLE_STRIP);
-    for (beta = 0.0; beta < 2.01*M_PI; beta += M_PI/triangulos)            
+    for (beta = 0.0; beta < 2.01*M_PI; beta += M_PI/triangulos)     
     {            
       pacx = raio*cos(beta)*sin(alfa);
       pacy = raio*sin(beta)*sin(alfa);

@@ -6,6 +6,19 @@ const int Mapa::MAPA_X = 31;
 const int Mapa::MAPA_Y = 28;
 
 // Mapa do Pacman
+// Obs: A rotação é feita no sentido anti-horário
+//  0 - Espaço vazio
+//  1 - Parede 1
+//  2 - Parede 1 (Rotação = 90)
+//  3 - Parede 1 (Rotação = 180)
+//  4 - Parede 1 (Rotação = 270)
+//  5 - Parede 2
+//  6 - Parede 2 (Rotação = 90)
+//  7 - Parede 3
+//  8 - Parede 3 (Rotação = 90)
+//  9 - Parede 3 (Rotação = 180)
+// 10 - Parede 3 (Rotação = 270)
+// 11 - Parede 4
 int matriz_mapa[Mapa::MAPA_X][Mapa::MAPA_Y] = {
   { 8, 5,  5,  5,  5,  5, 5,  5,  5,  5,  5,  5, 5,  1,  1, 5, 5,  5,  5,  5,  5, 5, 5,  5,  5,  5, 5,  7 },
   { 6, 0,  0,  0,  0,  0, 0,  0,  0,  0,  0,  0, 0,  2,  4, 0, 0,  0,  0,  0,  0, 0, 0,  0,  0,  0, 0,  6 },
@@ -40,6 +53,7 @@ int matriz_mapa[Mapa::MAPA_X][Mapa::MAPA_Y] = {
   { 9, 5,  5,  5,  5,  5, 5,  5,  5,  5,  5,  5, 5,  5,  5, 5, 5,  5,  5,  5,  5, 5, 5,  5,  5,  5, 5, 10 }
 };
 
+// Destrutor
 Mapa::~Mapa(void) {}
 
 // Constrói as paredes do mapa
@@ -49,7 +63,7 @@ Mapa::Mapa(void) {
 
 // Define as paredes do mapa
 void Mapa::Paredes(void) {
-  // 1 face (norte)
+  // Parede 1: 1 face (norte)
   lista[1] = glGenLists(1);
   glNewList(lista[1], GL_COMPILE);
 
@@ -62,7 +76,7 @@ void Mapa::Paredes(void) {
   glEnd();
   glEndList();
 
-  // 2 faces (norte, sul)
+  // Parede 2: 2 faces (norte, sul)
   lista[2] = glGenLists(1);
   glNewList(lista[2], GL_COMPILE);
   glBegin(GL_QUADS);
@@ -81,7 +95,7 @@ void Mapa::Paredes(void) {
   glEnd();
   glEndList();
 
-  // 2 faces (norte, leste)
+  // Parede 3: 2 faces (norte, leste)
   lista[3] = glGenLists(1);
   glNewList(lista[3], GL_COMPILE);
   glBegin(GL_QUADS);
@@ -100,7 +114,7 @@ void Mapa::Paredes(void) {
   glEnd();
   glEndList();
 
-  // 1 face (superior)
+  // Parede 4: 1 face (superior)
   lista[4] = glGenLists(1);
   glNewList(lista[4], GL_COMPILE);
   glBegin(GL_QUADS);
@@ -124,55 +138,55 @@ void Mapa::Desenha(void) {
       glPushMatrix();
 
       glTranslatef(-(float)MAPA_X / 2.0f, -(float)MAPA_Y / 2.0f, 0);
-      glTranslatef(j,                     MAPA_Y - i,            0);
+      glTranslatef(j, MAPA_Y - i, 0);
       glPushMatrix();
       glTranslatef(0.5, 0.5, 0);
 
-      if (matriz_mapa[i][j] == 4) {
-        glRotatef(270.0, 0, 0, 1);
-        aux = 1;
-      }
-      else if (matriz_mapa[i][j] == 3) {
-        glRotatef(180.0, 0, 0, 1);
+      
+      if (matriz_mapa[i][j] == 1) {
         aux = 1;
       }
       else if (matriz_mapa[i][j] == 2) {
         glRotatef(90.0, 0, 0, 1);
         aux = 1;
       }
-      else if (matriz_mapa[i][j] == 1) {
+      else if (matriz_mapa[i][j] == 3) {
+        glRotatef(180.0, 0, 0, 1);
         aux = 1;
       }
+      else if (matriz_mapa[i][j] == 4) {
+        glRotatef(270.0, 0, 0, 1);
+        aux = 1;
+      }
+      else if (matriz_mapa[i][j] == 5) {
+        aux = 2;
+      }  
       else if (matriz_mapa[i][j] == 6) {
         glRotatef(90.0, 0, 0, 1);
         aux = 2;
       }
-      else if (matriz_mapa[i][j] == 5) {
-        aux = 2;
-      }
-      else if (matriz_mapa[i][j] == 10) {
-        glRotatef(270.0, 0, 0, 1);
-        aux = 3;
-      }
-      else if (matriz_mapa[i][j] == 9) {
-        glRotatef(180.0, 0, 0, 1);
+      else if (matriz_mapa[i][j] == 7) {
         aux = 3;
       }
       else if (matriz_mapa[i][j] == 8) {
         glRotatef(90.0, 0, 0, 1);
         aux = 3;
       }
-      else if (matriz_mapa[i][j] == 7) {
+      else if (matriz_mapa[i][j] == 9) {
+        glRotatef(180.0, 0, 0, 1);
         aux = 3;
       }
-
+      else if (matriz_mapa[i][j] == 10) {
+        glRotatef(270.0, 0, 0, 1);
+        aux = 3;
+      }
+      
       glScalef(1, 1, 0.5);
       glTranslatef(-0.5, -0.5, 0);
       glCallList(lista[aux]);
       glPopMatrix();
 
-      // Define profundidade para que elementos com coordenadas menores fiquem
-      // na frente
+      // Define profundidade para que elementos com coordenadas menores fiquem na frente
       glEnable(GL_DEPTH_TEST);
       glDepthFunc(GL_LESS);
 

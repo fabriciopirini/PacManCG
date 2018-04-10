@@ -153,7 +153,8 @@ int main(int argc, char *argv[]) {
 
   // Exibe o mapa
   mapa = new Mapa();
-  int start_x[4] = { 11, 12, 15, 16 };
+
+  // Exibe o Pacman na sua posição inicial
   pacman = new Pacman(13.5, 23);
 
   init();
