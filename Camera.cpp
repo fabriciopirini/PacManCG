@@ -11,35 +11,33 @@ Camera::~Camera(void) {}
 Camera::Camera(float ratio) {
   glEnable(GL_CULL_FACE);
 
-  double eye[3];
-  float  color[4], dir[4];
+  float  cor[4], dir[4];
 
-  // Enable lighting with one light.
+  // Habilita a iluminação com uma fonte de luz.
   glEnable(GL_LIGHT0);
   glEnable(GL_LIGHTING);
 
-  // Ambient and diffuse lighting track the current color.
+  // Luz Ambiente e Difusa acompanham a cor atual.
   glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
   glEnable(GL_COLOR_MATERIAL);
 
-  // Turn on normal vector normalization. You don't have to give unit
-  // normal vector, and you can scale objects.
+  // Habilita a normalização do vetor normal.
   glEnable(GL_NORMALIZE);
 
-  color[0] = 1.0f;
-  color[1] = 1.0f;
-  color[2] = 1.0f;
-  color[3] = 1.0f;
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, color);
-  color[0] = 0.0f;
-  color[1] = 0.0f;
-  color[2] = 0.0f;
-  color[3] = 1.0f;
-  glLightfv(GL_LIGHT0, GL_SPECULAR, color);
+  cor[0] = 1.0f;
+  cor[1] = 1.0f;
+  cor[2] = 1.0f;
+  cor[3] = 1.0f;
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, cor);
+  cor[0] = 0.0f;
+  cor[1] = 0.0f;
+  cor[2] = 0.0f;
+  cor[3] = 1.0f;
+  glLightfv(GL_LIGHT0, GL_SPECULAR, cor);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(60, ratio, 0.005, 100);
+  gluPerspective(60, razao, 0.005, 100);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glColor3f(1.0f, 1.0f, 1.0f);
   glMatrixMode(GL_MODELVIEW);
@@ -52,6 +50,7 @@ Camera::Camera(float ratio) {
   glLightfv(GL_LIGHT0, GL_POSITION, dir);
 }
 
+// Posiciona a câmera de forma a fornecer uma visão isométrica do mapa.
 void Camera::Posicao(float x_at, float y_at, double angle, int view) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glColor3f(1.0f, 1.0f, 1.0f);
