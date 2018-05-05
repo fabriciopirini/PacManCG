@@ -1,1 +1,3 @@
-Projeto de Pacman 3D para a disciplina de PDI e CG da UNIFEI-Itabira
+# PacManCG
+
+3D PacMan game using pure OpenGL and free-glut.
