@@ -1,19 +1,12 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
-#include <GL/glut.h>
-
 class Camera {
-private:
-
-public:
+  public:
 
   Camera(float);
   ~Camera(void);
-  void Set_position(float,
-                    float,
-                    double,
-                    int);
+  void Posicao(int, int, float);
 };
 
-#endif // ifndef _CAMERA_H_
+#endif
