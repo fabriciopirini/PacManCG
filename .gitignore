@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Extras
+/html
+/latex
+/xml
+/rtf
+*.zip
+PacMan

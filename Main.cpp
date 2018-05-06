@@ -233,14 +233,17 @@ void init(void) {
 void catchKey(int key, int x, int y) {
 	lastKey = key;
 	if(lastKey == 1) {
-		exit(0);
+		//glutDestroyWindow();
+		exit(1);
 	}
 }
 
 void menu() {
 	printf("\033c");
-	printf("BEM VINDO AO JOGO DO PACMAN!\n");
-	printf("PARA INICIAR O JOGO, PRESSIONE ENTER: ");
+	printf("\x1b[92m\e[1mBEM VINDO AO JOGO DO PACMAN!\e[0m\x1b[0m\n");
+	printf("Para \e[1mcontrolar o Pac-man\e[0m, utilize as \e[1mSETAS DIRECIONAS!\e[0m\n");
+	printf("Para \e[1mfechar\e[0m o jogo, pressione \e[1mF1\e[0m\n");
+	printf("Para \e[1miniciar\e[0m o jogo, \e[1mpressione ENTER\e[0m-> ");
 
 	while (std::cin.get() != '\n') {}
 }
