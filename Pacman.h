@@ -2,22 +2,19 @@
 #define _PACMAN_H_
 
 class Pacman {
-private:
-
-  double velocidade;
-
 public:
 
-  int vidas;
-  double angulo;
-  double x, y;
-  bool mover;
+int vidas;
+double angulo;
+double x, y;
+bool mover;
+double velocidade;
 
-  Pacman(double, double);
-  ~Pacman(void);
-  void Move();
-  void Recomeca();
-  void Desenha(void);
+Pacman(double, double);
+~Pacman(void);
+void Move();
+void Recomeca();
+void Desenha(void);
 };
 
 #endif // ifndef _PACMAN_H_

@@ -6,6 +6,7 @@
 
 // Headers
 #include "Mapa.h"
+#include "tga.h"
 
 // Tamanho do mapa
 const int Mapa::MAPA_X = 31;
@@ -24,6 +25,7 @@ const int Mapa::MAPA_Y = 28;
     9 - Parede 3 (Rotação = 180)
    10 - Parede 3 (Rotação = 270)
    11 - Parede 4
+         12 - Fora do mapa
  */
 int matriz_mapa[Mapa::MAPA_X][Mapa::MAPA_Y] = {
 	{ 8,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  1,  1,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5, 5,  7 },
@@ -36,15 +38,15 @@ int matriz_mapa[Mapa::MAPA_X][Mapa::MAPA_Y] = {
 	{ 6,  0,  9,  3,  3, 10,  0,  2,  4,  0,  9,  3,  3, 11, 11,  3,  3, 10,  0,  2,  4,  0,  9,  3,  3, 10, 0,  6 },
 	{ 6,  0,  0,  0,  0,  0,  0,  2,  4,  0,  0,  0,  0,  2,  4,  0,  0,  0,  0,  2,  4,  0,  0,  0,  0,  0, 0,  6 },
 	{ 9,  5,  5,  5,  5,  7,  0,  2, 11,  1,  1,  7,  0,  2,  4,  0,  8,  1,  1, 11,  4,  0,  8,  5,  5,  5, 5, 10 },
-	{ 0,  0,  0,  0,  0,  6,  0,  2, 11,  3,  3, 10,  0,  9, 10,  0,  9,  3,  3, 11,  4,  0,  6,  0,  0,  0, 0,  0 },
-	{ 0,  0,  0,  0,  0,  6,  0,  2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  4,  0,  6,  0,  0,  0, 0,  0 },
-	{ 0,  0,  0,  0,  0,  6,  0,  2,  4,  0,  8,  5,  5,  1,  1,  5,  5,  7,  0,  2,  4,  0,  6,  0,  0,  0, 0,  0 },
+	{ 12,  12,  12,  12,  12,  6,  0,  2, 11,  3,  3, 10,  0,  9, 10,  0,  9,  3,  3, 11,  4,  0,  6,  12,  12,  12, 12,  12 },
+	{ 12,  12,  12,  12,  12,  6,  0,  2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  4,  0,  6,  12,  12,  12, 12,  12 },
+	{ 12,  12,  12,  12,  12,  6,  0,  2,  4,  0,  8,  5,  5,  1,  1,  5,  5,  7,  0,  2,  4,  0,  6,  12,  12,  12, 12,  12 },
 	{ 5,  5,  5,  5,  5, 10,  0,  9, 10,  0,  6,  0,  0,  0,  0,  0,  0,  6,  0,  9, 10,  0,  9,  5,  5,  5, 5,  5 },
 	{ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  6,  0,  0,  0,  0,  0,  0,  6,  0,  0,  0,  0,  0,  0,  0,  0, 0,  0 },
 	{ 5,  5,  5,  5,  5,  7,  0,  8,  7,  0,  6,  0,  0,  0,  0,  0,  0,  6,  0,  8,  7,  0,  8,  5,  5,  5, 5,  5 },
-	{ 0,  0,  0,  0,  0,  6,  0,  2,  4,  0, 9,  5,  5,  5,  5,  5,  5, 10,  0,  2,  4,  0,  6,  0,  0,  0, 0,  0 },
-	{ 0,  0,  0,  0,  0,  6,  0,  2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  4,  0,  6,  0,  0,  0, 0,  0 },
-	{ 0,  0,  0,  0,  0,  6,  0,  2,  4,  0,  8,  1,  1,  1,  1,  1,  1,  7,  0,  2,  4,  0,  6,  0,  0,  0, 0,  0 },
+	{ 12,  12,  12,  12,  12,  6,  0,  2,  4,  0, 9,  5,  5,  5,  5,  5,  5, 10,  0,  2,  4,  0,  6,  12,  12,  12, 12,  12 },
+	{ 12,  12,  12,  12,  12,  6,  0,  2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  4,  0,  6,  12,  12,  12, 12,  12 },
+	{ 12,  12,  12,  12,  12,  6,  0,  2,  4,  0,  8,  1,  1,  1,  1,  1,  1,  7,  0,  2,  4,  0,  6,  12,  12,  12, 12,  12 },
 	{ 8,  5,  5,  5,  5, 10,  0,  9, 10,  0,  9,  3,  3, 11, 11,  3,  3, 10,  0,  9, 10,  0,  9,  5,  5,  5, 5,  7 },
 	{ 6,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0,  6 },
 	{ 6,  0,  8,  1,  1,  7,  0,  8,  1,  1,  1,  7,  0,  2,  4,  0,  8,  1,  1,  1,  7,  0,  8,  1,  1,  7, 0,  6 },
@@ -118,79 +120,91 @@ void Mapa::Recomeca(void) {
 
 // Define as paredes do mapa
 void Mapa::Paredes(void) {
+
+	loadTGA("texturas/wall.tga", 1);
+
 	// Parede 1: 1 face (norte)
 	lista[1] = glGenLists(1);
 	glNewList(lista[1], GL_COMPILE);
-
+	glEnable (GL_TEXTURE_2D);
+	glBindTexture (GL_TEXTURE_2D, 1);
 	glBegin(GL_QUADS);
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 1.0f, 1.0f);
 	glEnd();
+	glDisable (GL_TEXTURE_2D);
 	glEndList();
 
 	// Parede 2: 2 faces (norte, sul)
 	lista[2] = glGenLists(1);
 	glNewList(lista[2], GL_COMPILE);
+	glEnable (GL_TEXTURE_2D);
+	glBindTexture (GL_TEXTURE_2D, 1);
 	glBegin(GL_QUADS);
-
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, 1.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 1.0f);
 
 	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 1.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
 	glEnd();
+	glDisable (GL_TEXTURE_2D);
 	glEndList();
 
 	// Parede 3: 2 faces (norte, leste)
 	lista[3] = glGenLists(1);
 	glNewList(lista[3], GL_COMPILE);
+	glEnable (GL_TEXTURE_2D);
+	glBindTexture (GL_TEXTURE_2D, 1);
 	glBegin(GL_QUADS);
-
 	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 1.0f, 0.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 1.0f, 1.0f);
 
 	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
 	glEnd();
+	glDisable (GL_TEXTURE_2D);
 	glEndList();
 
 	// Parede 4: 1 face (superior)
 	lista[4] = glGenLists(1);
 	glNewList(lista[4], GL_COMPILE);
+	glEnable (GL_TEXTURE_2D);
+	glBindTexture (GL_TEXTURE_2D, 1);
 	glBegin(GL_QUADS);
-
 	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+	glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 1.0f, 1.0f);
+	glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 0.0f, 1.0f);
 	glEnd();
+	glDisable (GL_TEXTURE_2D);
 	glEndList();
 }
 
 void Mapa::Desenha(void) {
-	glColor3f(0, 0, 1);
+	//glColor3f(0, 0, 1);
+	loadTGA("texturas/ground.tga", 2);
 	int aux;
 	for (int i = 0; i < MAPA_X; i++)
 	{
 		for (int j = 0; j < MAPA_Y; j++)
 		{
-			glColor3f(0, 0, 1);
+			//glColor3f(0, 0, 1);
 			aux = 0;
 			glPushMatrix();
 
@@ -199,7 +213,24 @@ void Mapa::Desenha(void) {
 			glPushMatrix();
 			glTranslatef(0.5, 0.5, 0);
 
-			if (matriz_mapa[i][j] == 1) {
+			if (matriz_mapa[i][j] == 0) {
+				//glColor3f(1, 1, 1);
+				glEnable (GL_TEXTURE_2D);
+				glBindTexture (GL_TEXTURE_2D, 2);
+				glPushMatrix();
+				glTranslatef(-0.5, -0.7, -0.7);
+				glBegin(GL_QUADS);
+				glNormal3f(0.0f, 0.0f, 1.0f);
+				glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+				glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 1.0f, 1.0f);
+				glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+				glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 0.0f, 1.0f);
+				glEnd();
+				glPopMatrix();
+				glDisable (GL_TEXTURE_2D);
+				// glTranslatef(0, 0, 100);
+			}
+			else if (matriz_mapa[i][j] == 1) {
 				aux = 1;
 			}
 			else if (matriz_mapa[i][j] == 2) {
