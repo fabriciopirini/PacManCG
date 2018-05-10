@@ -25,7 +25,7 @@ const int Mapa::MAPA_Y = 28;
     9 - Parede 3 (Rotação = 180)
    10 - Parede 3 (Rotação = 270)
    11 - Parede 4
-         12 - Fora do mapa
+   12 - Fora do mapa
  */
 int matriz_mapa[Mapa::MAPA_X][Mapa::MAPA_Y] = {
 	{ 8,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  1,  1,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5,  5, 5,  7 },
@@ -80,7 +80,7 @@ int matriz_pontos[Mapa::MAPA_X][Mapa::MAPA_Y] = {
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 },
 	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
 	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
 	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
 	{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
 	{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
@@ -120,7 +120,7 @@ void Mapa::Recomeca(void) {
 
 // Define as paredes do mapa
 void Mapa::Paredes(void) {
-
+	// Carrega textura das paredes
 	loadTGA("texturas/wall.tga", 1);
 
 	// Parede 1: 1 face (norte)
@@ -197,14 +197,13 @@ void Mapa::Paredes(void) {
 }
 
 void Mapa::Desenha(void) {
-	//glColor3f(0, 0, 1);
 	loadTGA("texturas/ground.tga", 2);
+
 	int aux;
 	for (int i = 0; i < MAPA_X; i++)
 	{
 		for (int j = 0; j < MAPA_Y; j++)
 		{
-			//glColor3f(0, 0, 1);
 			aux = 0;
 			glPushMatrix();
 
@@ -214,11 +213,11 @@ void Mapa::Desenha(void) {
 			glTranslatef(0.5, 0.5, 0);
 
 			if (matriz_mapa[i][j] == 0) {
-				//glColor3f(1, 1, 1);
+				// Desenha textura no chão "andável"
 				glEnable (GL_TEXTURE_2D);
 				glBindTexture (GL_TEXTURE_2D, 2);
 				glPushMatrix();
-				glTranslatef(-0.5, -0.7, -0.7);
+				glTranslatef(-0.5, -0.6, -0.7);
 				glBegin(GL_QUADS);
 				glNormal3f(0.0f, 0.0f, 1.0f);
 				glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, 1.0f);
@@ -228,7 +227,6 @@ void Mapa::Desenha(void) {
 				glEnd();
 				glPopMatrix();
 				glDisable (GL_TEXTURE_2D);
-				// glTranslatef(0, 0, 100);
 			}
 			else if (matriz_mapa[i][j] == 1) {
 				aux = 1;
@@ -278,7 +276,12 @@ void Mapa::Desenha(void) {
 				glCallList(lista[4]);
 			}
 			glPopMatrix();
-
+		}
+	}
+	for (int i = 0; i < MAPA_X; i++)
+	{
+		for (int j = 0; j < MAPA_Y; j++)
+		{
 			// Desenha as bolinhas de pontos
 			GLfloat alfa, beta;
 			GLfloat raio = 0.1f * ((float) pontos[i][j]);
@@ -311,13 +314,13 @@ void Mapa::Desenha(void) {
 				}
 				glPopMatrix();
 			}
+
+			// Define profundidade para que elementos com coordenadas menores fiquem na frente
+			glEnable(GL_DEPTH_TEST);
+			glDepthFunc(GL_LESS);
 		}
-		// Define profundidade para que elementos com coordenadas menores fiquem na frente
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
 	}
 }
-
 // Verifica se o mapa está nas coordenadas definidas
 bool Mapa::NaTela(int x, int y) {
 	if (matriz_mapa[y][x] > 0) {

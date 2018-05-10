@@ -67,6 +67,7 @@ void RenderScene() {
 
 	// Todos os pontos foram "comidos"
 	if (mapa->pontosRest == 0) {
+		pacman->vidas = 3;
 		init();
 		mapa->Recomeca();
 	}
